@@ -10,17 +10,35 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "required": ["inputdir", "metadata", "outdir"],
             "properties": {
-                "input": {
+                "inputdir": {
                     "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/csv",
-                    "pattern": "^\\S+\\.csv$",
-                    "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/dge/usage#samplesheet-input).",
-                    "fa_icon": "fas fa-file-csv"
+                    "format": "directory-path",
+                    "description": "Path to nextflow_rnaseq results folder.",
+                    "fa_icon": "fas fa-folder-open"
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": "Path to metadata. This should be a txt file where the first column are the sample IDs, and the other (1 or more) columns displays the conditions for each sample. The samples must match those located in inputdir/star_salmon/",
+                    "fa_icon": "fas fa-file-alt",
+                    "format": "file-path"
+                },
+                "design": {
+                    "type": "string",
+                    "description": "Specifies DESeq2 design. If defined, --condition, --treatment and --control must also be defined"
+                },
+                "condition": {
+                    "type": "string",
+                    "description": "Specifies 'condition' for the DESeq2 contrast. Requires --design to be specified"
+                },
+                "treatment": {
+                    "type": "string",
+                    "description": "Specifies 'treatment' for the DESeq2 contrast. Requires --design to be specified"
+                },
+                "control": {
+                    "type": "string",
+                    "description": "Specifies 'control' for the DESeq2 contrast. Requires --design to be specified"
                 },
                 "outdir": {
                     "type": "string",
@@ -34,44 +52,61 @@
                     "fa_icon": "fas fa-envelope",
                     "help_text": "Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (`~/.nextflow/config`) then you don't need to specify this on the command line for every run.",
                     "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$"
-                },
-                "multiqc_title": {
-                    "type": "string",
-                    "description": "MultiQC report title. Printed as page header, used for filename if not otherwise specified.",
-                    "fa_icon": "fas fa-file-signature"
                 }
             }
         },
-        "reference_genome_options": {
-            "title": "Reference genome options",
+        "gsea_parameters": {
+            "title": "GSEA parameters",
             "type": "object",
-            "fa_icon": "fas fa-dna",
-            "description": "Reference genome related files and options required for the workflow.",
+            "description": "Define GSEA parameters",
+            "default": "",
+            "fa_icon": "fas fa-layer-group",
             "properties": {
-                "genome": {
-                    "type": "string",
-                    "description": "Name of iGenomes reference.",
-                    "fa_icon": "fas fa-book",
-                    "help_text": "If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. `--genome GRCh38`. \n\nSee the [nf-core website docs](https://nf-co.re/usage/reference_genomes) for more details."
-                },
-                "fasta": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
-                    "description": "Path to FASTA genome file.",
-                    "help_text": "This parameter is *mandatory* if `--genome` is not specified. If you don't have a BWA index available this will be generated for you automatically. Combine with `--save_reference` to save BWA index for future runs.",
-                    "fa_icon": "far fa-file-code"
-                },
-                "igenomes_ignore": {
+                "skip_gsea": {
                     "type": "boolean",
-                    "description": "Do not load the iGenomes reference config.",
-                    "fa_icon": "fas fa-ban",
-                    "hidden": true,
-                    "help_text": "Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`."
+                    "description": "Skip GSEA step, otherwise it will run GSEA on each result file."
+                },
+                "gmt": {
+                    "type": "string",
+                    "description": "File with gene sets in GMT format. If not specified, it will use the hallmark gene sets from MSigDB (HUGO names). Ignored if --gmt_ensembl is present.",
+                    "default": "/Users/lconde/UCL/nfcore_pipelines/nf-core-dge/assets/h.all.v6.2.symbols.gmt",
+                    "format": "file-path"
+                },
+                "perm": {
+                    "type": "integer",
+                    "default": 1000,
+                    "description": "Number of permutations."
+                },
+                "min_set": {
+                    "type": "integer",
+                    "default": 15,
+                    "description": "Ignore gene sets that contain less than these number of genes."
+                },
+                "max_set": {
+                    "type": "integer",
+                    "default": 500,
+                    "description": "Ignore gene sets that contain more than these number of genes."
                 }
             }
+        },
+        "volcano_plot_parameters": {
+            "title": "Volcano plot parameters",
+            "type": "object",
+            "description": "D",
+            "default": "",
+            "properties": {
+                "pval": {
+                    "type": "number",
+                    "default": 1e-50,
+                    "description": "Pval threshold to display gene labels in the volcano plot."
+                },
+                "fc": {
+                    "type": "number",
+                    "default": 3,
+                    "description": "FC threshold to display gene labels in the volcano plot."
+                }
+            },
+            "fa_icon": "fas fa-drafting-compass"
         },
         "institutional_config_options": {
             "title": "Institutional config options",
@@ -198,14 +233,6 @@
                     "fa_icon": "fas fa-remove-format",
                     "hidden": true
                 },
-                "max_multiqc_email_size": {
-                    "type": "string",
-                    "description": "File size limit when attaching MultiQC reports to summary emails.",
-                    "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
-                    "default": "25.MB",
-                    "fa_icon": "fas fa-file-upload",
-                    "hidden": true
-                },
                 "monochrome_logs": {
                     "type": "boolean",
                     "description": "Do not use coloured log outputs.",
@@ -218,24 +245,6 @@
                     "fa_icon": "fas fa-people-group",
                     "help_text": "Incoming hook URL for messaging service. Currently, MS Teams and Slack are supported.",
                     "hidden": true
-                },
-                "multiqc_config": {
-                    "type": "string",
-                    "format": "file-path",
-                    "description": "Custom config file to supply to MultiQC.",
-                    "fa_icon": "fas fa-cog",
-                    "hidden": true
-                },
-                "multiqc_logo": {
-                    "type": "string",
-                    "description": "Custom logo file to supply to MultiQC. File name must also be set in the MultiQC config file",
-                    "fa_icon": "fas fa-image",
-                    "hidden": true
-                },
-                "multiqc_methods_description": {
-                    "type": "string",
-                    "description": "Custom MultiQC yaml file containing HTML including a methods description.",
-                    "fa_icon": "fas fa-cog"
                 },
                 "validate_params": {
                     "type": "boolean",
@@ -270,19 +279,22 @@
     },
     "allOf": [
         {
-            "$ref": "#/definitions/input_output_options"
-        },
-        {
-            "$ref": "#/definitions/reference_genome_options"
-        },
-        {
             "$ref": "#/definitions/institutional_config_options"
+        },
+        {
+            "$ref": "#/definitions/input_output_options"
         },
         {
             "$ref": "#/definitions/max_job_request_options"
         },
         {
             "$ref": "#/definitions/generic_options"
+        },
+        {
+            "$ref": "#/definitions/gsea_parameters"
+        },
+        {
+            "$ref": "#/definitions/volcano_plot_parameters"
         }
     ]
 }

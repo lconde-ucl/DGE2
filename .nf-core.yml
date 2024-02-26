@@ -1,1 +1,6 @@
+#- param.input is hardcoded in linting, cannot just be removed from nextflow.config and schema
+#-	https://github.com/nf-core/tools/blob/57e27cf00edaaf4c5eecd7253eae3425b16cab02/nf_core/lint/nextflow_config.py#L117
 repository_type: pipeline
+lint:
+  nextflow_config:
+    - params.input
