@@ -16,7 +16,7 @@
 
 
 **DGE2** is a [nextflow](https://www.nextflow.io) pipeline built using code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) initative.
-It is a differential gene expression analysis pipeline that is meant to be run after the data has been preprocessed with the
+DGE2 is a pipeline for differential gene expression analysis, meant to be run after the data has been preprocessed with the
 [nf-core/rnaseq](https://github.com/nf-core/rnaseq) pipeline (v3+) with default star_salmon alignment.
 
 
