@@ -1,4 +1,4 @@
-# nf-core/dge: Citations
+# DGE2: Citations
 
 ## [nf-core](https://pubmed.ncbi.nlm.nih.gov/32055031/)
 
@@ -10,14 +10,23 @@
 
 ## Pipeline tools
 
-- [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+- [GSEA](https://www.gsea-msigdb.org/gsea/index.jsp)
 
-  > Andrews, S. (2010). FastQC: A Quality Control Tool for High Throughput Sequence Data [Online].
+  > Subramanian A, Tamayo P, Mootha VK, et al. Gene set enrichment analysis: a knowledge-based approach for interpreting genome-wide expression profiles. Proc Natl Acad Sci U S A. 2005;102(43):15545-15550.
 
-- [MultiQC](https://pubmed.ncbi.nlm.nih.gov/27312411/)
+- [DESeq2](https://pubmed.ncbi.nlm.nih.gov/25516281/)
 
-  > Ewels P, Magnusson M, Lundin S, Käller M. MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics. 2016 Oct 1;32(19):3047-8. doi: 10.1093/bioinformatics/btw354. Epub 2016 Jun 16. PubMed PMID: 27312411; PubMed Central PMCID: PMC5039924.
+  > Love MI, Huber W, Anders S (2014). Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biol. 15(12):550. PubMed PMID: 25516281; PubMed Central PMCID: PMC4302049.
 
+- [R](https://www.R-project.org/)
+
+  > R Core Team (2017). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria.
+
+- [ReportingTools](https://bioconductor.org/packages/release/bioc/html/ReportingTools.html)
+
+  > Huntley MA, et al. “ReportingTools: an automated result processing and presentation toolkit for high throughput genomic analyses.” Bioinformatics, Volume 29, Issue 24, December 2013, Pages 3220–3221. doi:10.1093/bioinformatics/btt551.
+
+  
 ## Software packaging/containerisation tools
 
 - [Anaconda](https://anaconda.com)
