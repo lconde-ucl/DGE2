@@ -1,6 +1,6 @@
 {
-    "name": "nf-core/dge",
-    "homePage": "https://github.com/nf-core/dge",
+    "name": "DGE2",
+    "homePage": "https://github.com/lconde-ucl/DGE2",
     "repos": {
         "https://github.com/nf-core/modules.git": {
             "modules": {

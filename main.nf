@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    nf-core/dge
+    DGE2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/nf-core/dge
+    Github : https://github.com/lconde-ucl/DGE2
 ----------------------------------------------------------------------------------------
 */
 
@@ -53,7 +53,7 @@ WorkflowMain.initialise(workflow, params, log, args)
 include { DGE } from './workflows/dge'
 
 //
-// WORKFLOW: Run main nf-core/dge analysis pipeline
+// WORKFLOW: Run main DGE2 analysis pipeline
 //
 workflow NFCORE_DGE {
     DGE ()

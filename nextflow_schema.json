@@ -69,7 +69,7 @@
                 "gmt": {
                     "type": "string",
                     "description": "File with gene sets in GMT format. If not specified, it will use the hallmark gene sets from MSigDB (HUGO names). Ignored if --gmt_ensembl is present.",
-                    "default": "/Users/lconde/UCL/nfcore_pipelines/nf-core-dge/assets/h.all.v6.2.symbols.gmt",
+                    "default": "/lustre/scratch/scratch/regmond/testing_dge2/DGE2/assets/h.all.v6.2.symbols.gmt",
                     "format": "file-path"
                 },
                 "perm": {
