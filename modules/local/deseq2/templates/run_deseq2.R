@@ -27,14 +27,14 @@ control = args\$deseq2\$CONTROL
 #--------------
 #- Get metadata
 #--------------
-colData <- read.table(metadata, sep="\t",header=T, stringsAsFactors=TRUE)
+colData <- read.table(metadata, sep="\\t",header=T, stringsAsFactors=TRUE)
 samples<-colData[,1]
 colnames<-colnames(colData)
 colData<-as.data.frame(colData[,-c(1)])
 rownames(colData)<-samples
 colnames(colData)<-colnames[-1]
 
-write.table(colData, file="colData.tsv", sep="\t", quote=FALSE, row.names=TRUE)
+write.table(colData, file="colData.tsv", sep="\\t", quote=FALSE, row.names=TRUE)
 
 #-------------------------------
 #- Specify design and contrast
@@ -67,7 +67,7 @@ tx2gene.file <- file.path(inputdir, "star_salmon/tx2gene.tsv")
 if (!file.exists(tx2gene.file)){
     stop("ERROR: ", tx2gene.file, " cannot be found. Please check that this file exists, it should have been created when running the nf-core/rnaseq pipeline.")
 }
-tx2gene<-read.table(tx2gene.file, header=T, sep="\t")
+tx2gene<-read.table(tx2gene.file, header=T, sep="\\t")
 colnames(tx2gene)<-c("transcript", "gene", "gene2")
 
 #- read counts
