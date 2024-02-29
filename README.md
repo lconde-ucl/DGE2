@@ -83,7 +83,7 @@ For more details and further functionality, please refer to the [usage documenta
 
 The pipeline produces text files and plots with the DGE and GSEA results, as well as an HTML report that contains a summary of the DGE results.
 For more details about the output files and reports, please refer to the
-[output documentation](https://https://github.com/lconde-ucl/DGE2/blob/master/docs/output.md).
+[output documentation](https://github.com/lconde-ucl/DGE2/blob/master/docs/output.md).
 
 
 ## Credits
