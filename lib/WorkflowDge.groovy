@@ -1,5 +1,5 @@
 //
-// This file holds several functions specific to the workflow/dge.nf in the nf-core/dge pipeline
+// This file holds several functions specific to the workflow/dge.nf in the DGE2 pipeline
 //
 
 import nextflow.Nextflow

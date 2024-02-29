@@ -17,7 +17,7 @@
                         "size": "Large",
                         "weight": "Bolder",
                         "color": "<% if (success) { %>Good<% } else { %>Attention<%} %>",
-                        "text": "nf-core/dge v${version} - ${runName}",
+                        "text": "DGE2 v${version} - ${runName}",
                         "wrap": true
                     },
                     {

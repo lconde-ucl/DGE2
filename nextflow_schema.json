@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/nf-core/dge/master/nextflow_schema.json",
-    "title": "nf-core/dge pipeline parameters",
+    "$id": "https://raw.githubusercontent.com/lconde-ucl/DGE2/master/nextflow_schema.json",
+    "title": "DGE2 pipeline parameters",
     "description": "Run DESeq2 and GSEA on the salmon abundance estimates obtained from the nf-core/rnaseq pipeline",
     "type": "object",
     "definitions": {
