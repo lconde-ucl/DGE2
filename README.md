@@ -88,7 +88,7 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-DGE2 was developed by [Lucia Conde](https://https://github.com/lconde-ucl/) in 2024. This is a DSL2 version of an older (DSL1) [DGE pipeline](https://https://github.com/lconde-ucl/DGE) developed in 2019
+DGE2 was developed by [Lucia Conde](https://github.com/lconde-ucl/) in 2024. This is a DSL2 version of an older (DSL1) [DGE pipeline](https://github.com/lconde-ucl/DGE) developed in 2019
 
 
 ## Contributions and Support
