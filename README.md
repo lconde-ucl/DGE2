@@ -16,7 +16,7 @@
 
 
 **DGE2** is a [nextflow](https://www.nextflow.io) pipeline built using code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) initative.
-DGE2 is a pipeline for differential gene expression analysis, meant to be run after the data has been preprocessed with the
+It was developed to perform differential gene expression analysis after the data has been preprocessed with the
 [nf-core/rnaseq](https://github.com/nf-core/rnaseq) pipeline (v3+) with default star_salmon alignment.
 
 
@@ -76,10 +76,6 @@ nextflow run lconde-ucl/DGE2 \
    --metadata <PATH/TO/METADATA> \
    --outdir <OUTDIR>
 ```
-
-> [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
-> see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
 
 For more details and further functionality, please refer to the [usage documentation](https://github.com/lconde-ucl/DGE2/blob/master/docs/usage.md)
 
