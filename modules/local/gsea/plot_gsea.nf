@@ -2,8 +2,8 @@
 // TODO nf-core: Optional inputs are not currently supported by Nextflow. However, using an empty
 //               list (`[]`) instead of a file can be used to work around this issue.
 
-process PLOT_GSEA {
-    tag { meta.id}
+process PLOT_FROM_GSEA_RESULTS {
+    tag { meta.id }
     label 'process_single'
 
     // TODO nf-core: List required Conda package(s).
@@ -12,11 +12,11 @@ process PLOT_GSEA {
     // TODO nf-core: See section in main README for further information regarding finding and adding container addresses to the section below.
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/YOUR-TOOL-HERE':
-        'biocontainers/YOUR-TOOL-HERE' }"
+        'https://depot.galaxyproject.org/singularity/mulled-v2-221100a52f7a6062a1dec9f34ce2a4ab4de1dffe:d02d387599ad4596922ae07c59c950502a89de66-0':
+        'biocontainers/mulled-v2-221100a52f7a6062a1dec9f34ce2a4ab4de1dffe:d02d387599ad4596922ae07c59c950502a89de66-0' }"
 
     input:
-    tuple val (meta), path (gsea_table), val (perm)
+    tuple val (meta), path (gsea_path), val (perm)
 
     output:
     tuple val(meta), path("gsea_plot.png")   , emit: gsea_table
@@ -33,24 +33,45 @@ process PLOT_GSEA {
     library(ggplot2)
     library(dplyr)
 
-    data<-read.table("$gsea_table", sep="\\t", header=T)
+    #- Create the gsea_table
+
+    prerankedfolder = list.files("$gsea_path", pattern="GseaPreranked")
+
+    gsea_table <- data.frame("RANK"= character(),"GENESET"= character(),"GENESET_ORIGINAL_SIZE"= numeric(),
+    "GENESET_SIZE_IN_DATA"= numeric(),"LEADING_EDGE_GENES"= numeric(),"RATIO"= numeric(),
+    "RATIO_ORIGINAL_SIZE"= numeric(),"FDR_p"= numeric(),"NES"= numeric())
+
+    originalsize <- read.table(paste0("$gsea_path", "/",prerankedfolder, "/gene_set_sizes.tsv"), sep="\t", header=T)
+
+    for (type in c("pos","neg")) {
+        posnegfile = list.files(paste0("$gsea_path","/",prerankedfolder), pattern=paste0("gsea_report_for_na_",type,"_.*.tsv"))
+        posneg <- read.table(paste0("$gsea_path", "/",prerankedfolder, "/", posnegfile), sep="\t", header=T)
+        posneg <- left_join(posneg, originalsize)
+        for (i in c(1:length(rownames(posneg)))){
+            if (file.exists(paste0("$gsea_path", "/",prerankedfolder,"/",posneg\$NAME[i], ".tsv"))){
+                df <- read.table(paste0("$gsea_path", "/",prerankedfolder,"/",posneg\$NAME[i], ".tsv"), header=T, sep="\t")
+
+                count=sum(df\$CORE.ENRICHMENT == "Yes")
+                ratio=round(count/posneg\$SIZE[i], 2)
+                ratiooriginal=round(count/posneg\$ORIGINAL.SIZE[i], 2)
+                gsea_table <- rbind(gsea_table, data.frame("RANK"= "meta" ,"GENESET"= posneg\$NAME[i], "GENESET_ORIGINAL_SIZE"= posneg\$ORIGINAL.SIZE[i],
+                            "GENESET_SIZE_IN_DATA"=posneg\$SIZE[i],"LEADING_EDGE_GENES"=count,"RATIO"= ratio,
+                            "RATIO_ORIGINAL_SIZE"=ratiooriginal, "FDR_p"= posneg\$FDR.q.val[i],"NES"=posneg\$NES[i]))
+            }
+        }
+    }
 
     #- Get range of NES for ylim
-    rangeNES=round(max(abs(max(data\$NES)), abs(min(data\$NES)))+0.5)
+    rangeNES=round(max(abs(max(gsea_table\$NES)), abs(min(gsea_table\$NES)))+0.5)
 
-    #- Replace FDR = 0 to FDR = 0.001 (as this was run on 1000 iterations)
-    data\$FDR_p[data\$FDR_p == 0] <- (1/$perm)
-
-    #- THIS WORKED IN PREVIOUS VERSIONS OF R, NOT NOW
-    ##- Add numeric variable for GENESET to be able to draw horizontal lines
-    #data <- transform(data, GENESET0 = as.numeric(GENESET))
-    data <- mutate(data, GENESET0 = GENESET)
+    #- Replace FDR = 0 to FDR = 0.001 (as this was run on #perm iterations)
+    gsea_table\$FDR_p[gsea_table\$FDR_p == 0] <- (1/$perm)
 
     #- get plot (based on code from https://www.biostars.org/p/168044/)
     png("gsea_plot.png", width=800)
-    p <- ggplot(data, aes(NES, GENESET)) +
+    p <- ggplot(gsea_table, aes(NES, GENESET)) +
         geom_point(aes(colour=FDR_p, size=RATIO)) +
-        geom_segment(mapping = aes(yend=GENESET0, xend = 0), size=0.5, colour="gray50") +
+        geom_segment(mapping = aes(yend=GENESET, xend = 0), size=0.5, colour="gray50") +
         geom_point(aes(colour=FDR_p, size=RATIO)) +
         scale_color_gradient(limits=c(0, 0.05), low="red", high="white") +
         geom_vline(xintercept=0, size=0.5, colour="gray50") +
@@ -80,7 +101,6 @@ process PLOT_GSEA {
         paste0("  dplyr version: '", dplyr.version, "'")
 
     ), con = "versions.yml")
-
     """
 
 }

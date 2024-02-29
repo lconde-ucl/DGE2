@@ -12,8 +12,8 @@ process GET_RANK_FILE {
     // TODO nf-core: See section in main README for further information regarding finding and adding container addresses to the section below.
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/YOUR-TOOL-HERE':
-        'biocontainers/YOUR-TOOL-HERE' }"
+        'https://depot.galaxyproject.org/singularity/perl:5.26.2':
+        'biocontainers/perl:5.26.2' }"
 
     input:
     tuple val (meta), path (resnorm)

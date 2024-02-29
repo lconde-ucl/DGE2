@@ -1,66 +1,142 @@
-# nf-core/dge: Usage
+# DGE2: Usage
 
-## :warning: Please read this documentation on the nf-core website: [https://nf-co.re/dge/usage](https://nf-co.re/dge/usage)
 
-> _Documentation of pipeline parameters is generated automatically from the pipeline schema and can no longer be found in markdown files._
 
 ## Introduction
 
 <!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
 
-## Samplesheet input
+## Mandatory input/output arguments
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
+### `--inputdir DIR`
 
-```bash
---input '[path to samplesheet file]'
+This is used to specify the location of the results folder obtained after running the [nfcore rnaseq](https://github.com/nf-core/rnaseq) pipeline (v3+).
+The DGE2 pipeline assumes that the `[inputdir]` folder contains a `[inputdir]/star_salmon/` folder with the following structure:
+
+```
+results/star_salmon/SAMPLE_1/quant.sf
+results/star_salmon/SAMPLE_2/quant.sf
+results/star_salmon/SAMPLE_3/quant.sf
+results/star_salmon/SAMPLE_4/quant.sf
+results/star_salmon/SAMPLE_5/quant.sf
+results/star_salmon/SAMPLE_6/quant.sf
+results/star_salmon/tx2gene.tsv
+[...]
 ```
 
-### Multiple runs of the same sample
+There you should have a `quant.sf` file for each sample, plus a `tx2gene.tsv` file with the correspondence between transcript and gene identifiers.
 
-The `sample` identifiers have to be the same when you have re-sequenced the same sample more than once e.g. to increase sequencing depth. The pipeline will concatenate the raw reads before performing any downstream analysis. Below is an example for the same sample sequenced across 3 lanes:
+> Please note that running the nextflow_rnaseq pipeline is not mandatory- As long as you have an `[inputdir]/star_salmon/` folder with the salmon abundance files and tx2gene file, you can run the DGE2 pipeline; just organize the files in a folder structure like the above.
 
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L003_R1_001.fastq.gz,AEG588A1_S1_L003_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L004_R1_001.fastq.gz,AEG588A1_S1_L004_R2_001.fastq.gz
+
+### `--metadata FILE`
+
+Additionally, you will need to prepare a metadata file that looks as follows:
+
+```
+SampleID	Status	Levels
+SAMPLE_1	ctr high
+SAMPLE_2	ctr	high
+SAMPLE_3	ctr	med
+SAMPLE_4	case	low
+SAMPLE_5	case	low
+SAMPLE_6	case	low
 ```
 
-### Full samplesheet
+This should be a txt file where the first column are the sample IDs, and the other (1 or more) columns displays the conditions for each sample. The samples must match those in the `results/star_salmon` inputdir.
 
-The pipeline will auto-detect whether a sample is single- or paired-end using the information provided in the samplesheet. The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 3 columns to match those defined in the table below.
 
-A final samplesheet file consisting of both single- and paired-end data may look something like the one below. This is for 6 samples, where `TREATMENT_REP3` has been sequenced twice.
+### `--outdir DIR`
 
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP2,AEG588A2_S2_L002_R1_001.fastq.gz,AEG588A2_S2_L002_R2_001.fastq.gz
-CONTROL_REP3,AEG588A3_S3_L002_R1_001.fastq.gz,AEG588A3_S3_L002_R2_001.fastq.gz
-TREATMENT_REP1,AEG588A4_S4_L003_R1_001.fastq.gz,
-TREATMENT_REP2,AEG588A5_S5_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L004_R1_001.fastq.gz,
+Name of the output folder.
+
+
+## DESeq2 arguments
+
+By default, the DGE pipeline will run differential gene expression analysis on each possible combination of conditions using a design with all the conditions. For example, for the `metadata.txt` file above, the pipeline will run the
+following analysis:
+
+```
+Design: ~ Status + Levels
+Comparisons:
+	cases vs. controls (status)
+	high vs. medium (levels)
+	high vs. low (levels)
+	medium vs. low (levels)
 ```
 
-| Column    | Description                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
-| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
+This default behaviour (all possible comparisons) can be overrided and the user can choose the design and comparison of interest by specifying the following arguments:
 
-An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
+### `--design STR`
+Specifies DESeq2 design. If defined, --condition, --treatment and --control must also be defined.
+Not used by default.
+
+### `--condition STR`
+Specifies 'condition' for the DESeq2 contrast. Requires --design to be specified.
+Not used by default.
+
+### `--treatment STR`
+Specifies 'treatment' for the DESeq2 contrast. Requires --design to be specified.
+Not used by default.
+
+### `--control STR`
+Specifies 'control' for the DESeq2 contrast. Requires --design to be specified.
+Not used by default.
+
+
+## GSEA arguments
+
+For each comparison above, a GSEA analysis using the hallmark gene sets from MSigDB will be performed.
+
+> Please note that the hallmark dataset contains HUGO IDs. If your tx2gene file has different gene IDs (it will depend on what assembly/GFT file you used when you ran the nf-core/rnaseq pipeline), or if your data are from a species other than human, the default hallmark
+gene set will not work with your data. You will have to either skip GSEA with the --skip_gsea flag, or add an appropiate gene set with the --gmx argument.
+
+### `--skip_gsea`
+Skip GSEA step, otherwise it will run GSEA on each result file.
+Not used by default.
+
+### `--gmx STR`
+File with gene sets in GMX format. If not specified, it will use the hallmark gene sets from MSigDB (human HUGO IDs).
+
+### `--min_set NUM`
+Ignore gene sets that contain less than NUM genes.
+Default = 15
+
+### `--max_set NUM`
+Ignore gene sets that contain more than NUM genes.
+Default = 500
+
+### `--perm NUM`
+Number of permutations for the NES calculation.
+Default = 1000
+
+
+## Volcano plot arguments
+
+One of the plots produced from the differential gene expression analysis is a volcano plot. Here you can control the gene labels shown in the plot by modifying the P-val and FC thresholds i the plot.
+
+### `--pval NUM`
+Pval threshold to display gene labels in the output volcano plot.
+Default:  1e-50
+
+### `--fc NUM`
+FC threshold to display gene labels in the output volcano plot.
+Default: 3
+
 
 ## Running the pipeline
 
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run nf-core/dge --input ./samplesheet.csv --outdir ./results --genome GRCh37 -profile docker
+nextflow run lconde-ucl/DGE2 \
+  --inputdir ./results_rnaseq \
+  --metadata ./metadata.txt \
+  --outdir result_dge \
+  -profile singularity
 ```
 
-This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
+This will launch the pipeline (all possible comparisons) with the `singularity` configuration profile. See below for more information about profiles.
 
 Note that the pipeline will create the following files in your working directory:
 
@@ -71,26 +147,44 @@ work                # Directory containing the nextflow working files
 # Other nextflow hidden files, eg. history of pipeline runs and old logs.
 ```
 
-If you wish to repeatedly use the same parameters for multiple runs, rather than specifying each flag in the command, you can specify these in a params file.
+You can choose a specific `design` and contrast using the arguments mentioned above. E.g., if you want to run differential expression of cases versus controls (Status column), you will do:
+
+```
+nextflow run lconde-ucl/DGE2 \
+  --inputdir ./results_rnaseq \
+  --metadata ./metadata.txt \
+  --design Status \
+  --condition Status \
+  --treatment case \
+  --control ctr \
+  --outdir result_dge \
+  -profile singularity
+```
+
+If you wish to repeatedly use the same parameters for multiple runs, rather than specifying each flag in the command, you can specify these in a params file, but please note that this only applies to non-mandatory arguments, i.e., `--inputdir`, `--metadata` and `--outputdir` must be always specified in the command line
+
 
 Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <file>`.
 
-:::warning
-Do not use `-c <file>` to specify parameters as this will result in errors. Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources), other infrastructural tweaks (such as output directories), or module arguments (args).
-:::
 
 The above pipeline run specified with a params file in yaml format:
 
 ```bash
-nextflow run nf-core/dge -profile docker -params-file params.yaml
+nextflow run lconde-ucl/DGE2 \
+  --inputdir ./results_rnaseq \
+  --metadata ./metadata.txt \
+  --outdir result_dge \
+  -profile docker \
+  -params-file params.yaml
 ```
 
 with `params.yaml` containing:
 
 ```yaml
-input: './samplesheet.csv'
-outdir: './results/'
-genome: 'GRCh37'
+design: 'Status'
+condition: 'Status'
+treatment: 'case'
+control: 'ctr'
 <...>
 ```
 
@@ -101,16 +195,16 @@ You can also generate such `YAML`/`JSON` files via [nf-core/launch](https://nf-c
 When you run the above command, Nextflow automatically pulls the pipeline code from GitHub and stores it as a cached version. When running the pipeline after this, it will always use the cached version if available - even if the pipeline has been updated since. To make sure that you're running the latest version of the pipeline, make sure that you regularly update the cached version of the pipeline:
 
 ```bash
-nextflow pull nf-core/dge
+nextflow pull lconde-ucl/DGE2
 ```
 
 ### Reproducibility
 
 It is a good idea to specify a pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
 
-First, go to the [nf-core/dge releases page](https://github.com/nf-core/dge/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
+First, go to the [lconde-ucl/DGE2 releases page](https://github.com/lconde-ucl/DGE2/releases) and find the latest pipeline version - numeric only (eg. `1.0`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.0`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
-This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. For example, at the bottom of the MultiQC reports.
+This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future.
 
 To further assist in reproducbility, you can use share and re-use [parameter files](#running-the-pipeline) to repeat pipeline runs with the same settings without having to write out a command with every single parameter.
 
@@ -177,17 +271,7 @@ Whilst the default requirements set within the pipeline will hopefully work for 
 
 To change the resource requests, please see the [max resources](https://nf-co.re/docs/usage/configuration#max-resources) and [tuning workflow resources](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources) section of the nf-core website.
 
-### Custom Containers
 
-In some cases you may wish to change which container or conda environment a step of the pipeline uses for a particular tool. By default nf-core pipelines use containers and software from the [biocontainers](https://biocontainers.pro/) or [bioconda](https://bioconda.github.io/) projects. However in some cases the pipeline specified version maybe out of date.
-
-To use a different container from the default container or conda environment specified in a pipeline, please see the [updating tool versions](https://nf-co.re/docs/usage/configuration#updating-tool-versions) section of the nf-core website.
-
-### Custom Tool Arguments
-
-A pipeline might not always support every possible argument or option of a particular tool used in pipeline. Fortunately, nf-core pipelines provide some freedom to users to insert additional parameters that the pipeline does not include by default.
-
-To learn how to provide additional arguments to a particular tool of the pipeline, please see the [customising tool arguments](https://nf-co.re/docs/usage/configuration#customising-tool-arguments) section of the nf-core website.
 
 ### nf-core/configs
 

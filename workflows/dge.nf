@@ -76,7 +76,7 @@ include { REPORT_DESIGN          } from '../modules/local/dgereports/report_desi
 include { REPORT_ALL             } from '../modules/local/dgereports/report_all'
 include { GET_RANK_FILE          } from '../modules/local/gsea/get_rank_file'
 include { GSEA_PRERANKED         } from '../modules/local/gsea/gsea_preranked'
-include { PLOT_GSEA              } from '../modules/local/gsea/plot_gsea'
+include { PLOT_FROM_GSEA_RESULTS } from '../modules/local/gsea/plot_gsea'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -183,10 +183,10 @@ workflow DGE {
         //
         // MODULE: Run PLOT_GSEA
         //
-        PLOT_GSEA (
-            GSEA_PRERANKED.out.gsea_table.combine(ch_perm)
+        PLOT_FROM_GSEA_RESULTS (
+            GSEA_PRERANKED.out.gsea_path.combine(ch_perm)
         )
-        ch_versions = ch_versions.mix(PLOT_GSEA.out.versions.first())
+        ch_versions = ch_versions.mix(PLOT_FROM_GSEA_RESULTS.out.versions.first())
 
     }
 

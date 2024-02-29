@@ -19,7 +19,7 @@ library(hwriter)
 #--------------
 #- Get data
 #--------------
-colData <- read.table("$COLDATA", sep="\t",header=T, stringsAsFactors=TRUE)
+colData <- read.table("$COLDATA", sep="\\t",header=T, stringsAsFactors=TRUE)
 dds<-readRDS("$DDS")
 
 args<-read.ini("$DESEQCONF")
@@ -75,7 +75,7 @@ res<-results(dds, contrast = contrast, alpha=0.05)
 resNorm <- lfcShrink(dds, contrast = contrast, res=res, type="ashr")
 
 contrastname = paste0(condition, "_", treatment, "_vs_", control)
-write.table(resNorm, file=paste0(contrastname, "_results.txt"), sep="\t",quote=F,row.names=T, col.names=NA)
+write.table(resNorm, file=paste0(contrastname, "_results.txt"), sep="\\t",quote=F,row.names=T, col.names=NA)
 
 
 #-----------------------
@@ -86,7 +86,7 @@ heatmap_name<-paste0(contrastname, "_heatmap.png")
 de <- rownames(resNorm[resNorm\$padj<0.05 & !is.na(resNorm\$padj) & abs(resNorm\$log2FoldChange) > fc, ])
 
 if(length(de) < 5) {
-	message<-paste0("Only ", length(de), " genes with Padj<0.05 and Log2FC>",fc,".\n\nPlease rerun the pipeline with a\nlower FC threshold to generate a heatmap")
+	message<-paste0("Only ", length(de), " genes with Padj<0.05 and Log2FC>",fc,".\\n\\nPlease rerun the pipeline with a\\nlower FC threshold to generate a heatmap")
 
 	png(file=heatmap_name, width=600, height=600, res=200)
 	plot(0, type = 'n', axes = FALSE, ann = FALSE)

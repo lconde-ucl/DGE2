@@ -10,8 +10,8 @@ process DESEQ2 {
     // TODO nf-core: See section in main README for further information regarding finding and adding container addresses to the section below.
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/YOUR-TOOL-HERE':
-        'biocontainers/YOUR-TOOL-HERE' }"
+        'https://depot.galaxyproject.org/singularity/mulled-v2-221100a52f7a6062a1dec9f34ce2a4ab4de1dffe:d02d387599ad4596922ae07c59c950502a89de66-0':
+        'biocontainers/mulled-v2-221100a52f7a6062a1dec9f34ce2a4ab4de1dffe:d02d387599ad4596922ae07c59c950502a89de66-0' }"
 
     input:
     // TODO nf-core: Where applicable all sample-specific information e.g. "id", "single_end", "read_group"
