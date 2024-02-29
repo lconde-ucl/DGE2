@@ -28,7 +28,6 @@ The [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) pa
   - `Condition_treatment_vs_control/`: There will be one "Condition_treatment_vs_control" folder per comparison (e.g. contrast), containing a file and several plots:
     - Condition_treatment_vs_control_VolcanoPlot.png
     - Condition_treatment_vs_control_MAplot.png
-    - CCondition_treatment_vs_control_MAandVolcano.png
     - Condition_treatment_vs_control_heatmap.png
     - Condition_treatment_vs_control_results.txt
 - `DGE2_report/`
