@@ -1,4 +1,4 @@
-# nf-core/dge: Output
+# DGE2: Output
 
 ## Introduction
 
