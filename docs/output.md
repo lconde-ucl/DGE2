@@ -35,7 +35,6 @@ The [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) pa
   - `DGE2.html`: HTML report containing a summary of the DGE results, including the files and plots above
 </details>
 
-See an [example HTML report]()
 ![dge](images/dge_report.png)
 
 
@@ -54,7 +53,7 @@ sets](http://software.broadinstitute.org/gsea/msigdb/collections.jsp) from MSigD
     - gsea_plot.png
 </details>
 
-See an [example HTML report]()
+![gsea](images/gsea_plot.png)
 
 
 ### Pipeline information
