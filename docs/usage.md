@@ -161,26 +161,22 @@ nextflow run lconde-ucl/DGE2 \
   -profile singularity
 ```
 
-If you wish to repeatedly use the same parameters for multiple runs, rather than specifying each flag in the command, you can specify these in a params file, but please note that this only applies to non-mandatory arguments, i.e., `--inputdir`, `--metadata` and `--outputdir` must be always specified in the command line
-
-
-Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <file>`.
-
+If you wish to repeatedly use the same parameters for multiple runs, rather than specifying each flag in the command, you can specify any of these in a params file. Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <file>`.
 
 The above pipeline run specified with a params file in yaml format:
 
 ```bash
 nextflow run lconde-ucl/DGE2 \
-  --inputdir ./results_rnaseq \
-  --metadata ./metadata.txt \
-  --outdir result_dge \
-  -profile docker \
+  -profile singularity \
   -params-file params.yaml
 ```
 
 with `params.yaml` containing:
 
 ```yaml
+inputdir: "results_rnaseq"
+metadata "metadata.txt"
+outdir "result_dge"
 design: 'Status'
 condition: 'Status'
 treatment: 'case'
