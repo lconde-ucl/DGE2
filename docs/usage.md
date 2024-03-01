@@ -53,8 +53,7 @@ Name of the output folder.
 
 ## DESeq2 arguments
 
-By default, the DGE pipeline will run differential gene expression analysis on each possible combination of conditions using a design with all the conditions. For example, for the `metadata.txt` file above, the pipeline will run the
-following analysis:
+If the desired model is not specified, the DGE pipeline will run differential gene expression analysis using a multi-factor design encompasing all the variables from the metadata file ( ~ CONDITION1 + CONDITION2 +...). The pipeline will generate results for each possible combination of conditions as a contrast. For example, for the `metadata.txt` file above, the pipeline will run the following analysis:
 
 ```
 Design: ~ Status + Levels
@@ -65,7 +64,7 @@ Comparisons:
 	medium vs. low (levels)
 ```
 
-This default behaviour (all possible comparisons) can be overrided and the user can choose the design and comparison of interest by specifying the following arguments:
+While this default approach considers all potential comparisons, it may not be particularly useful or relevant for the user's specific needs. Therefore, it is recommended that users explicitly define the relevant design for their experiment. To override the default behavior, users can choose the specific design and comparisons of interest by specifying the following arguments:
 
 ### `--design STR`
 Specifies DESeq2 design. If defined, --condition, --treatment and --control must also be defined.
