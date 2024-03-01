@@ -64,7 +64,8 @@ Comparisons:
 	medium vs. low (levels)
 ```
 
-While this default approach considers all potential comparisons, it may not be particularly useful or relevant for the user's specific needs. Therefore, it is recommended that users explicitly define the relevant design for their experiment. To override the default behavior, users can choose the specific design and comparisons of interest by specifying the following arguments:
+While this default approach considers all potential comparisons, it may not be especially useful or relevant for the user's specific needs, particularly if the metadata file containes variables that are not of interest. Therefore, it is recommended that users explicitly define the relevant design and comparisons of interest for their experiment, by specifying the following arguments:
+
 
 ### `--design STR`
 Specifies DESeq2 design. If defined, --condition, --treatment and --control must also be defined.
