@@ -202,7 +202,7 @@ for(i in 1:2) {
 dev.off()
 
 reportdir="DGE2_report"
-title=paste0('RNA-seq DGE analysis using DESeq2 with user-defined design')
+title=paste0('RNA-seq DGE analysis using DESeq2 with user-defined design: ', design)
 des2Report <- HTMLReport(shortName = 'DGE2', title = title, reportDirectory = reportdir)
 
 himg <- hwriteImage(paste0("../DGE2_PlotsAndFiles/",pcaplot_name))

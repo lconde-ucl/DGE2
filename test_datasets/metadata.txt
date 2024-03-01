@@ -1,7 +1,0 @@
-SAMPLE	CONDITION
-ctr1_1	ctr
-ctr2_2	ctr
-ctr3_3	ctr
-case_1	case
-case_2	case
-case_3	case

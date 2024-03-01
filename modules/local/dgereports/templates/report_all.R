@@ -102,7 +102,7 @@ setMethod("modifyReportDF",
 #- Get results using default design and all possible contrasts
 #-------------------------------------------------------------
 reportdirALL="DGE2_report"
-title=paste0('RNA-seq DGE analysis using DESeq2 with default (no design specified) mode')
+title=paste0('RNA-seq DGE analysis using DESeq2 with default (unespecified) design: ', design)
 des2ReportALL <- HTMLReport(shortName = 'DGE2', title = title, reportDirectory = reportdirALL)
 
 himg <- hwriteImage(paste0("../DGE2_PlotsAndFiles/",pcaplot_name))
