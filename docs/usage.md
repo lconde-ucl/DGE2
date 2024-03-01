@@ -174,9 +174,9 @@ nextflow run lconde-ucl/DGE2 \
 with `params.yaml` containing:
 
 ```yaml
-inputdir: "results_rnaseq"
-metadata "metadata.txt"
-outdir "result_dge"
+inputdir: 'results_rnaseq'
+metadata: 'metadata.txt'
+outdir: 'result_dge'
 design: 'Status'
 condition: 'Status'
 treatment: 'case'
