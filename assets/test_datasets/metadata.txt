@@ -1,7 +1,7 @@
-Sample	DiseaseStatus	Batch
-ctr_1	ctr	batch1
-ctr_2	ctr	batch2
-ctr_3	ctr	batch3
-case_1	case	batch1
-case_2	case	batch2
-case_3	case	batch3
+Sample	DiseaseStatus
+ctr_1	ctr
+ctr_2	ctr
+ctr_3	ctr
+case_1	case
+case_2	case
+case_3	case
