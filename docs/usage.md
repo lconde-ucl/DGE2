@@ -34,13 +34,13 @@ There you should have a `quant.sf` file for each sample, plus a `tx2gene.tsv` fi
 Additionally, you will need to prepare a metadata file that looks as follows:
 
 ```
-SampleID	Status	Levels
-SAMPLE_1	ctr high
-SAMPLE_2	ctr	high
-SAMPLE_3	ctr	med
-SAMPLE_4	case	low
-SAMPLE_5	case	low
-SAMPLE_6	case	low
+SampleID	Levels  Status
+SAMPLE_1  high  ctr
+SAMPLE_2	high  ctr
+SAMPLE_3	med  ctr
+SAMPLE_4	low  case
+SAMPLE_5	low  case
+SAMPLE_6	low  case
 ```
 
 This should be a txt file where the first column are the sample IDs, and the other (1 or more) columns displays the conditions for each sample. The samples must match those in the `results/star_salmon` inputdir.
@@ -53,10 +53,10 @@ Name of the output folder.
 
 ## DESeq2 arguments
 
-If the desired model is not specified, the DGE pipeline will run differential gene expression analysis using a multi-factor design encompasing all the variables from the metadata file ( ~ CONDITION1 + CONDITION2 +...). The pipeline will generate results for every possible contrast within each variable of the design. For example, for the `metadata.txt` file above, the pipeline will run the following analysis:
+If the desired model is not specified, the DGE pipeline will run differential gene expression analysis using a multi-factor design encompasing all the variables from the metadata file ( ~ CONDITION1 + CONDITION2 +...) in the same order as in the metadata file. The pipeline will generate results for every possible contrast within each variable of the design. For example, for the `metadata.txt` file above, the pipeline will run the following analysis:
 
 ```
-Design: ~ Status + Levels
+Design: ~ Levels + Status
 Contrasts:
 	cases vs. controls (status)
 	high vs. medium (levels)
@@ -64,7 +64,7 @@ Contrasts:
 	medium vs. low (levels)
 ```
 
-Please note that the order of the variables in the design is taken from the order of the variable in the metadata file. This default approach may not be especially useful or relevant for the user's specific needs, particularly if the metadata file containes variables that are not of interest. Therefore, it is recommended that users **explicitly define the relevant design and comparisons of interest for their experiment**, by specifying the following arguments:
+In that example, we would be measuring the effect of `Status`, controling for `Levels` differences. This default approach may not always be especially useful or relevant for the user's specific needs, particularly if the metadata file containes variables that are not of interest. Therefore, it is recommended that users **explicitly define the relevant design and comparisons of interest for their experiment**, by specifying the following arguments:
 
 
 ### `--design STR`
