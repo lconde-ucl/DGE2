@@ -53,7 +53,7 @@ Name of the output folder.
 
 ## DESeq2 arguments
 
-If the desired model is not specified, the DGE pipeline will run differential gene expression analysis using a multi-factor design encompasing all the variables from the metadata file ( ~ CONDITION1 + CONDITION2 +...). The pipeline will generate results for each possible combination of conditions as a contrast. For example, for the `metadata.txt` file above, the pipeline will run the following analysis:
+If the desired model is not specified, the DGE pipeline will run differential gene expression analysis using a multi-factor design encompasing all the variables from the metadata file ( ~ CONDITION1 + CONDITION2 +...). The pipeline will generate results for every variable in the design. For example, for the `metadata.txt` file above, the pipeline will run the following analysis:
 
 ```
 Design: ~ Status + Levels
@@ -64,7 +64,7 @@ Contrasts:
 	medium vs. low (levels)
 ```
 
-While this default approach considers all potential comparisons, it may not be especially useful or relevant for the user's specific needs, particularly if the metadata file containes variables that are not of interest. Therefore, it is recommended that users explicitly define the relevant design and comparisons of interest for their experiment, by specifying the following arguments:
+Please note that the order of the variables in the design is taken from the order of the variable in the metadata file. This default approach may not be especially useful or relevant for the user's specific needs, particularly if the metadata file containes variables that are not of interest. Therefore, it is recommended that users **explicitly define the relevant design and comparisons of interest for their experiment**, by specifying the following arguments:
 
 
 ### `--design STR`
@@ -136,7 +136,7 @@ nextflow run lconde-ucl/DGE2 \
   -profile singularity
 ```
 
-This will launch the pipeline (all possible comparisons) with the `singularity` configuration profile. See below for more information about profiles.
+This will launch the pipeline with the `singularity` configuration profile. See below for more information about profiles.
 
 Note that the pipeline will create the following files in your working directory:
 
@@ -147,7 +147,7 @@ work                # Directory containing the nextflow working files
 # Other nextflow hidden files, eg. history of pipeline runs and old logs.
 ```
 
-You can choose a specific `design` and contrast using the arguments mentioned above. E.g., if you want to run differential expression of cases versus controls (Status column), you will do:
+You can choose a specific `design` and contrast using the arguments mentioned above. E.g., if you want to run differential expression of cases versus controls (Status column), without adjusting for any other variable, you will run:
 
 ```
 nextflow run lconde-ucl/DGE2 \
