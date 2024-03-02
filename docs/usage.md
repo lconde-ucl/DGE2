@@ -53,7 +53,7 @@ Name of the output folder.
 
 ## DESeq2 arguments
 
-If the desired model is not specified, the DGE pipeline will run differential gene expression analysis using a multi-factor design encompasing all the variables from the metadata file ( ~ CONDITION1 + CONDITION2 +...). The pipeline will generate results for every variable in the design. For example, for the `metadata.txt` file above, the pipeline will run the following analysis:
+If the desired model is not specified, the DGE pipeline will run differential gene expression analysis using a multi-factor design encompasing all the variables from the metadata file ( ~ CONDITION1 + CONDITION2 +...). The pipeline will generate results for every possible contrast within each variable of the design. For example, for the `metadata.txt` file above, the pipeline will run the following analysis:
 
 ```
 Design: ~ Status + Levels
