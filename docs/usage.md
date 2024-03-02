@@ -57,7 +57,7 @@ If the desired model is not specified, the DGE pipeline will run differential ge
 
 ```
 Design: ~ Status + Levels
-Comparisons:
+Contrasts:
 	cases vs. controls (status)
 	high vs. medium (levels)
 	high vs. low (levels)
