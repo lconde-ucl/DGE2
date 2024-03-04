@@ -1,6 +1,6 @@
 
 process REPORT_ALL {
-    label 'process_single'
+    label 'process_low'
 
     // TODO nf-core: List required Conda package(s).
     //               Software MUST be pinned to channel (i.e. "bioconda"), version (i.e. "1.10").
