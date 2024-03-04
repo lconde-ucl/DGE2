@@ -73,8 +73,10 @@ sets](http://software.broadinstitute.org/gsea/msigdb/collections.jsp) from MSigD
 
 `nextflow run lconde-ucl/DGE2 -profile test,singularity --outdir results_dge
 `
+The results from running the above command can be downloaded [here](https://downgit.evecalm.com/#/home?url=https://github.com/lconde-ucl/DGE2/tree/master/assets/test_datasets/results_dge)
 
-[results_dge](https://github.com/lconde-ucl/DGE2/tree/master/assets/test_datasets/results_dge)
+
+
 
 
 
