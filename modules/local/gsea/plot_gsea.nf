@@ -54,7 +54,7 @@ process PLOT_FROM_GSEA_RESULTS {
                 count=sum(df\$CORE.ENRICHMENT == "Yes")
                 ratio=round(count/posneg\$SIZE[i], 2)
                 ratiooriginal=round(count/posneg\$ORIGINAL.SIZE[i], 2)
-                gsea_table <- rbind(gsea_table, data.frame("RANK"= "meta" ,"GENESET"= posneg\$NAME[i], "GENESET_ORIGINAL_SIZE"= posneg\$ORIGINAL.SIZE[i],
+                gsea_table <- rbind(gsea_table, data.frame("RANK"= "$meta.id","GENESET"= posneg\$NAME[i], "GENESET_ORIGINAL_SIZE"= posneg\$ORIGINAL.SIZE[i],
                             "GENESET_SIZE_IN_DATA"=posneg\$SIZE[i],"LEADING_EDGE_GENES"=count,"RATIO"= ratio,
                             "RATIO_ORIGINAL_SIZE"=ratiooriginal, "FDR_p"= posneg\$FDR.q.val[i],"NES"=posneg\$NES[i]))
             }

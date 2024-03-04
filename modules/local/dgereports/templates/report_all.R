@@ -146,7 +146,7 @@ for (i in 1:ncol(colData)) {
 
             ha<-HeatmapAnnotation(df = select(colData, !!colnames(colData)[i]))
             p <- Heatmap(t(scale(t(de_mat))),
-                name = "Normalized counts (scaled)",
+                name = "z-score",
                 row_names_gp = gpar(fontsize = 6),column_names_gp = gpar(fontsize = 4),
                 heatmap_legend_param = list(legend_direction = "horizontal"),
                 show_column_names = TRUE,
