@@ -36,9 +36,7 @@ The [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) pa
 
 ![dge](images/dge_report.png)
 
-
 ### GSEA
-
 
 [GSEA](http://software.broadinstitute.org/gsea/index.jsp) is used to look for enrichment of gene sets at the top or bottom of the rnaked list of genes obtained from the DGE analysis. The [hallmark gene
 sets](http://software.broadinstitute.org/gsea/msigdb/collections.jsp) from MSigDB is used by default.
@@ -69,3 +67,14 @@ sets](http://software.broadinstitute.org/gsea/msigdb/collections.jsp) from MSigD
 </details>
 
 [Nextflow](https://www.nextflow.io/docs/latest/tracing.html) provides excellent functionality for generating various reports relevant to the running and execution of the pipeline. This will allow you to troubleshoot errors with the running of the pipeline, and also provide you with other information such as launch commands, run times and resource usage.
+
+
+## Example output
+
+`nextflow run lconde-ucl/DGE2 -profile test,singularity --outdir results_dge
+`
+
+[results_dge](https://github.com/lconde-ucl/DGE2/tree/master/assets/test_datasets/results_dge)
+
+
+
