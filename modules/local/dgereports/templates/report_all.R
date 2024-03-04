@@ -23,7 +23,7 @@ colData <- read.table("$COLDATA", sep="\\t",header=T, stringsAsFactors=TRUE)
 dds<-readRDS("$DDS")
 
 #- get design 
-design <- gsub("~","",design(dds))
+design <- gsub("~","",format(design(dds))
 
 args<-read.ini("$DESEQCONF")
 
