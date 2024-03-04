@@ -34,7 +34,8 @@ The [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) pa
   - `DGE2.html`: HTML report containing a summary of the DGE results, including the files and plots above
 </details>
 
-![dge](images/dge_report.png)
+<img src="images/dge_report" alt="DGE" width="300"/>
+
 
 ### GSEA
 
@@ -69,11 +70,11 @@ sets](http://software.broadinstitute.org/gsea/msigdb/collections.jsp) from MSigD
 [Nextflow](https://www.nextflow.io/docs/latest/tracing.html) provides excellent functionality for generating various reports relevant to the running and execution of the pipeline. This will allow you to troubleshoot errors with the running of the pipeline, and also provide you with other information such as launch commands, run times and resource usage.
 
 
-## Example output
+## Test output folder
 
 `nextflow run lconde-ucl/DGE2 -profile test,singularity --outdir results_dge
 `
-The results from running the above command can be downloaded [here](https://downgit.evecalm.com/#/home?url=https://github.com/lconde-ucl/DGE2/tree/master/assets/test_datasets/results_dge)
+The results from running the above command can be downloaded from [here](https://downgit.evecalm.com/#/home?url=https://github.com/lconde-ucl/DGE2/tree/master/assets/test_datasets/results_dge)
 
 
 
