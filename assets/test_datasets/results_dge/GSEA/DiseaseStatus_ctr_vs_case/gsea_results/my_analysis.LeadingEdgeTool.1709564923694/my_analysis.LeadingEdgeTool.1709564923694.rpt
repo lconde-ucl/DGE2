@@ -1,0 +1,12 @@
+producer_class	xtools.gsea.LeadingEdgeTool
+producer_timestamp	1709564923694
+param	rpt_label	my_analysis
+param	help	false
+param	imgFormat	png
+param	zip_report	false
+param	gui	false
+param	dir	/lustre/scratch/scratch/regmond/testing_DGE2/work/f6/c3cca7355d5c495573232453cf083b/gsea_results/my_analysis.GseaPreranked.1709564894239
+param	extraPlots	true
+param	out	/lustre/scratch/scratch/regmond/testing_DGE2/work/f6/c3cca7355d5c495573232453cf083b/gsea_results
+
+file	gsea_results/my_analysis.LeadingEdgeTool.1709564923694/index.html
