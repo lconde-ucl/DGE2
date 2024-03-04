@@ -106,6 +106,6 @@ This pipeline uses code and infrastructure developed and maintained by the [nf-c
 > Nat Biotechnol. 2020 Feb 13. doi: 10.1038/s41587-020-0439-x.
 
 <!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
-In addition, references of tools and data used in this pipeline are as follows:
+Additional references of tools and data used in this pipeline are in [CITATIONS](https://github.com/lconde-ucl/DGE2/blob/master/CITATIONS.md)
 
 
