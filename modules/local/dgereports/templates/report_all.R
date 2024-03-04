@@ -22,12 +22,11 @@ library(hwriter)
 colData <- read.table("$COLDATA", sep="\\t",header=T, stringsAsFactors=TRUE)
 dds<-readRDS("$DDS")
 
+#- get design 
+design <- design(dds)
+
 args<-read.ini("$DESEQCONF")
 
-design = args\$deseq2\$DESIGN
-condition = args\$deseq2\$CONDITION
-treatment = args\$deseq2\$TREATMENT
-control = args\$deseq2\$CONTROL
 pval = as.numeric(args\$deseq2\$PVAL)
 fc = as.numeric(args\$deseq2\$FC)
 
@@ -102,7 +101,7 @@ setMethod("modifyReportDF",
 #- Get results using default design and all possible contrasts
 #-------------------------------------------------------------
 reportdirALL="DGE2_report"
-title=paste0('RNA-seq DGE analysis using DESeq2 with default (unespecified) design: ', design)
+title=paste0('RNA-seq DGE analysis using DESeq2 with (unespecified) design, defaulting to: ', design)
 des2ReportALL <- HTMLReport(shortName = 'DGE2', title = title, reportDirectory = reportdirALL)
 
 himg <- hwriteImage(paste0("../DGE2_PlotsAndFiles/",pcaplot_name))
