@@ -34,7 +34,7 @@ The [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) pa
   - `DGE2.html`: HTML report containing a summary of the DGE results, including the files and plots above
 </details>
 
-<img src="images/dge_report" alt="DGE" width="300"/>
+<img src="images/dge_report.png" alt="DGE" width="300"/>
 
 
 ### GSEA
