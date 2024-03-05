@@ -69,7 +69,7 @@
                 "gmt": {
                     "type": "string",
                     "description": "File with gene sets in GMT format. If not specified, it will use the hallmark gene sets from MSigDB (HUGO names).",
-                    "default": "$projectDir/assets/h.all.v6.2.symbols.gmt",
+                    "default": "https://raw.githubusercontent.com/lconde-ucl/DGE2/master/assets/h.all.v6.2.symbols.gmt",
                     "format": "file-path"
                 },
                 "perm": {
