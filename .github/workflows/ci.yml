@@ -1,4 +1,4 @@
-name: lconde-ucl/DGE2
+name: nf-core CI
 # This workflow runs the pipeline with the minimal test dataset to check that it completes without any syntax errors
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
   test:
     name: Run pipeline with test data
     # Only run on push if this is the nf-core dev branch (merged PRs)
-    if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'lconde-ucl/DGE2') }}"
+    if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'nf-core/dge') }}"
     runs-on: ubuntu-latest
     strategy:
       matrix:
