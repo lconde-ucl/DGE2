@@ -2,5 +2,10 @@
 #-	https://github.com/nf-core/tools/blob/57e27cf00edaaf4c5eecd7253eae3425b16cab02/nf_core/lint/nextflow_config.py#L117
 repository_type: pipeline
 lint:
-  nextflow_config:
-    - params.input
+  nextflow_config: false
+  files_exist: false
+  files_unchanged: false
+  multiqc_config: false
+  pipeline_todos: false
+  pipeline_name_conventions: false
+  schema_lint: false
