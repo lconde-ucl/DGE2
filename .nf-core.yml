@@ -4,3 +4,4 @@ repository_type: pipeline
 lint:
   nextflow_config:
     - params.input
+  files_unchanged

@@ -69,7 +69,6 @@
                 "gmt": {
                     "type": "string",
                     "description": "File with gene sets in GMT format. If not specified, it will use the hallmark gene sets from MSigDB (HUGO names).",
-                    "default": "",
                     "format": "file-path"
                 },
                 "perm": {
