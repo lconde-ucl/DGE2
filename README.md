@@ -54,13 +54,13 @@ In the above example, you would pass the `results/` folder to the DGE2 pipeline 
 Additionally, you will need to prepare a `metadata.txt` file that looks as follows:
 
 ```
-SampleID	Status	Levels
-SAMPLE_1	ctr	high
-SAMPLE_2	ctr	high
-SAMPLE_3	ctr	med
-SAMPLE_4	case	low
-SAMPLE_5	case	low
-SAMPLE_6	case	low
+SampleID	Levels  Status
+SAMPLE_1	high  ctr
+SAMPLE_2	high  ctr
+SAMPLE_3	med  ctr
+SAMPLE_4	low  case
+SAMPLE_5	low  case
+SAMPLE_6	low  case
 ```
 
 This should be a txt file where the first column are the sample IDs, and the other (1 or more) columns displays the conditions for each sample. The samples must match those in the `results/star_salmon` inputdir.
