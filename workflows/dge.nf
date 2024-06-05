@@ -13,7 +13,7 @@ def summary_params = paramsSummaryMap(workflow)
 // Print parameter summary log to screen
 log.info logo + paramsSummaryLog(workflow) + citation
 
-WorkflowDge.initialise(params, log)
+WorkflowDGE2.initialise(params, log)
 
 // Check mandatory arguments
 if( params.inputdir ){
